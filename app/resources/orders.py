@@ -1,7 +1,7 @@
 from flask import Flask, request
 from flask_restful import Resource, reqparse
 
-from app.models import Order
+from app.api.v1.models import Order
 
 class OrderResource(Resource):
 	parser = reqparse.RequestParser()
