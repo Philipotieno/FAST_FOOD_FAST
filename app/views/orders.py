@@ -8,9 +8,13 @@ class OrderResource(Resource):
 	parser.add_argument('food')
 	parser.add_argument('price')
 
-	def post():
+	def post(self):
 		'''method to post all orders'''
-		pass
+		args = OrderResource.parser.parse_args()
+		food = args.get('food')
+		price = args.get('price')
+
+		return {'message' : 'you have place your order'}
 
 	def get():
 		'''method to get a food order'''

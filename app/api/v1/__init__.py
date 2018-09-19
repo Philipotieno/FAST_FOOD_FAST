@@ -10,8 +10,8 @@ def create_app(config_name):
 
 	app.config.from_object(instance.config.app_config)
 
-	from app.resources.users import RegisterUser, Login
-	from app.resources.orders import OrderResource
+	from app.views.users import RegisterUser, Login
+	from app.views.orders import OrderResource
 
 	api.add_resource(RegisterUser, '/api/v1/user/signup')
 	api.add_resource(Login, '/api/v1/user/login')
