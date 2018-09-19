@@ -36,7 +36,7 @@ class Login(Resource):
 
 	def post(self):
 		'''method for loging in'''
-		args = Login.parser.parse_arg()
+		args = Login.parser.parse_args()
 		username = args['username']
 		password = args['password']
 
