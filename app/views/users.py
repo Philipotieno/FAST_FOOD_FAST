@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_restful import Resource, reqparse
 
-from app.models import User
+from app.api.v1.models import User
 
 class RegisterUser(Resource):
 	parser = reqparse.RequestParser()
