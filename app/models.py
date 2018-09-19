@@ -36,3 +36,20 @@ class User():
 		db.all_users += 1
 		return self.view()
 
+	@classmethod
+	def get_user_by_email(cls, email):
+		'''Method for getting user by email'''
+		for id_ in db.users:
+			user = db.users.get(id_)
+			if user.email == email:
+				return user
+		return None
+
+	@classmethod
+	def get_user_by_username(cls, username):
+		'''Method for getting user by username'''
+		for id_ in db.users:
+			user = db.users.get(id_)
+			if user.username == username:
+				return user
+		return None
