@@ -72,4 +72,5 @@ class Order():
 
 	def view(self):
 		'''method to convert orders to json'''
-		keys = ('id')
+		keys = ('id', 'food', 'price', 'user_id')
+		return {key: getattr(self, key) for key in keys}
