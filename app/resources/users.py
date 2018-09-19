@@ -26,3 +26,21 @@ class RegisterUser(Resource):
 		user = user.save()
 
 		return {'message': 'succesfull registration', 'user': user}, 201
+
+
+class Login(Resource):
+	'''Login resource'''
+	parser = reqparse.RequestParser()
+	parser.add_argument('username')
+	parser.add_argument('password')
+
+	def post(self):
+		'''method for loging in'''
+		args = Login.parser.parse_arg()
+		username = args['username']
+		password = args['password']
+
+		user = User.get_user_by_username(username)
+		if not user:
+			return {'message':'User not registered'}
+		return {'message' : 'You are now logged in', 'user':user.view()}, 200

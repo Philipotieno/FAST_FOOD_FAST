@@ -10,9 +10,10 @@ def create_app(config_name):
 
 	app.config.from_object(config.app_config)
 
-	from app.resources.users import RegisterUser
+	from app.resources.users import RegisterUser, Login
 
 	api.add_resource(RegisterUser, '/api/v1/user/signup')
+	api.add_resource(Login, '/api/v1/user/login')
 
 
 	return app #retuns to the app after loading configurations
