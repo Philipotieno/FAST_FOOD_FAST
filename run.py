@@ -1,3 +1,4 @@
+''''this is the entry point to fire up the app'''
 import os
 
 from app import create_app
