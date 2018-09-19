@@ -8,14 +8,14 @@ class DATABASE():
 		self.all_orders  = 0
 
 db = DATABASE()
-# class Base():
-# 	''''to be inherited by both users and orders class'''
-# 	def latest(self, data):
-# 		#validtae keys passing data
-# 		for key in data:
-# 			setattr(self, key)
-# 		setatrr(self)
-# 		return self.view
+
+class Base():
+	''''to be inherited by both users and orders class'''
+	def latest(self, data):
+		#validtae keys passing data
+		for key in data:
+			setattr(self, key, data[key])
+		return self.view
 
 class User():
 	'''User model class'''
@@ -32,6 +32,7 @@ class User():
 
 	def save(self):
 		'''Save user information'''
+		setattr(self, 'id', db.all_users + 1)
 		db.users.update({self.id: self})
 		db.all_users += 1
 		return self.view()
@@ -39,8 +40,8 @@ class User():
 	@classmethod
 	def get_user_by_email(cls, email):
 		'''Method for getting user by email'''
-		for id_ in db.users:
-			user = db.users.get(id_)
+		for idx in db.users:
+			user = db.users.get(idx)
 			if user.email == email:
 				return user
 		return None
@@ -48,8 +49,8 @@ class User():
 	@classmethod
 	def get_user_by_username(cls, username):
 		'''Method for getting user by username'''
-		for id_ in db.users:
-			user = db.users.get(id_)
+		for idx in db.users:
+			user = db.users.get(idx)
 			if user.username == username:
 				return user
 		return None
