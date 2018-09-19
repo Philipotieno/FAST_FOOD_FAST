@@ -54,3 +54,17 @@ class User():
 			if user.username == username:
 				return user
 		return None
+
+class Order():
+	'''class to model order'''
+	def __init__(self, food, price, user_id):
+		self.food = food
+		self.price =price
+		self.id = None
+		self.user_id = user_id
+
+	def save(self):
+		'''method to fave food orders'''
+		setattr(self, 'id', db.all_orders + 1)
+		db.all_orders += 1
+		db.orders[self.user_id].update({self.id : self})
