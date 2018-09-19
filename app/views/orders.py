@@ -14,7 +14,10 @@ class OrderResource(Resource):
 		food = args.get('food')
 		price = args.get('price')
 
-		return {'message' : 'you have place your order'}
+		order = Order(food=food, price=price)
+		order = order.save()
+
+		return {'message' : 'you have place your order', 'order':order}
 
 	def get():
 		'''method to get a food order'''

@@ -9,14 +9,6 @@ class DATABASE():
 
 db = DATABASE()
 
-class Base():
-	''''to be inherited by both users and orders class'''
-	def latest(self, data):
-		#validtae keys passing data
-		for key in data:
-			setattr(self, key, data[key])
-		return self.view
-
 class User():
 	'''User model class'''
 	def __init__(self, username, password, email):
@@ -57,14 +49,18 @@ class User():
 
 class Order():
 	'''class to model order'''
-	def __init__(self, food, price, user_id):
+	def __init__(self, food, price):
 		self.food = food
 		self.price =price
 		self.id = None
-		self.user_id = user_id
 
 	def save(self):
 		'''method to fave food orders'''
 		setattr(self, 'id', db.all_orders + 1)
 		db.all_orders += 1
-		db.orders[self.user_id].update({self.id : self})
+		return self.view()
+
+	def view(self):
+		'''method to convert orders to json'''
+		keys = ('id', 'food', 'price')
+		return {key: getattr(self, key) for key in keys}

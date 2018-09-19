@@ -15,6 +15,7 @@ def create_app(config_name):
 
 	api.add_resource(RegisterUser, '/api/v1/user/signup')
 	api.add_resource(Login, '/api/v1/user/login')
+	api.add_resource(OrderResource, '/api/v1/users/orders')
 
 
 	return app #retuns to the app after loading configurations
