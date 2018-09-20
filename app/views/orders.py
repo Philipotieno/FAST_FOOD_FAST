@@ -2,7 +2,7 @@ from flask import Flask, request
 from flask_restful import Resource, reqparse
 
 from app.api.v1.models import Order
-from app.api.v1.decorator import token_required
+from app.api.v1.decorator import token_required, no_input
 
 class OrderResource(Resource):
 	'''resources for user ordrs'''
@@ -16,6 +16,9 @@ class OrderResource(Resource):
 		args = OrderResource.parser.parse_args()
 		food = args.get('food', '')
 		price = args.get('price', '')
+
+		if no_input(food) or no_input(price):
+			return {'message':'Fill all the required fields'}, 400
 
 		order = Order(food=food, user_id=user_id, price=price)
 		order = order.save()

@@ -16,9 +16,11 @@ def token_required(func):
 				return func(user_id=user_id, *args, **kwargs)
 			return {'message' : 'you are not loged in/session expired'}, 401
 		except Exception as e:
-			return {'message' : 'an error occured'}
+			return {'message' : 'an error occured', 'error':str(e)}, 400
 	return decorated
-def empty(var):
+
+def no_input(var):
 	'''Checks if requred field is empty'''
 	if var.strip() == '':
 		return 'Fill all the fields'
+	return None

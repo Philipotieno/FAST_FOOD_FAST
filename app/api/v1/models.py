@@ -2,6 +2,7 @@ from flask import current_app
 import jwt
 
 class DATABASE():
+	'''class for database'''
 	def __init__(self):
 		self.users  = {}
 		self.orders  = {}
@@ -36,7 +37,7 @@ class User():
 
 	def generate_token(self):
 		'''method to generate tokens on user log in'''
-		payload = {'username': self.username, 'id': self.id}
+		payload = {'username': self.username,'id': self.id}
 		tokens = jwt.encode(payload, str(current_app.config.get('SECRET')), algorithm = 'HS256')
 		return tokens.decode()
 
@@ -45,6 +46,7 @@ class User():
 		'''method to decode tokens after being generated'''
 		payload = jwt.encode(payload, str(current_app.config.get('SECRET')), algorithm = 'HS256')
 		return payload
+
 	@classmethod
 	def get(cls, id):
 		'''method to get user by id'''
@@ -83,7 +85,7 @@ class Order():
 		'''method to fave food orders'''
 		setattr(self, 'id', db.all_orders + 1)
 		db.all_orders += 1
-		db.orders[self.user_id].update({self.id: {}})
+		db.orders[self.user_id].update({self.id: self})
 		return self.view()
 
 	def view(self):
@@ -96,7 +98,7 @@ class Order():
 		'''method to get orders'''
 		user_orders = db.orders.get(user_id)
 		if not user_orders:
-			return {'message':'No orders'}
+			return {'message':'No orders availiable'}
 		if id:
 			order = user_orders.get(id)
 			if order:
