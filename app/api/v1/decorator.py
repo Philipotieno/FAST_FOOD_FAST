@@ -13,7 +13,7 @@ def token_required(func):
 				accsess_token = authorization_header.split(' ')[1]
 			if accsess_token:
 				user_id = User.decode_tokens(accsess_token)['id']
-				return func(user_id, *args, **kwargs)
+				return func(user_id=user_id, *args, **kwargs)
 			return {'message' : 'you are not loged in/session expired'}, 401
 		except Exception as e:
 			return {'message' : 'an error occured'}

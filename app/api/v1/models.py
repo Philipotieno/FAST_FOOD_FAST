@@ -36,6 +36,12 @@ class User():
 		tokens = jwt.encode(payload, str(current_app.config.get('SECRET')), algorithm = 'HS256')
 		return tokens.decode()
 
+	@staticmethod
+	def decode_token(token):
+		'''method to decode tokens after being generated'''
+		payload = jwt.encode(payload, str(current_app.config.get('SECRET')), algorithm = 'HS256')
+		return payload
+		
 	@classmethod
 	def get_user_by_email(cls, email):
 		'''Method for getting user by email'''

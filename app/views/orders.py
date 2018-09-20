@@ -16,7 +16,7 @@ class OrderResource(Resource):
 		food = args.get('food', required=True, help='Food cannot be blank', type=str)
 		price = args.get('price', required=True, help='Price cannot be blank', type=int)
 
-		order = Order(food=food, price=price, user_id=user_id)
+		order = Order(food=food, user_id=user_id, price=price)
 		order = order.save()
 
 		return {'message' : 'you have place your order', 'order':order},201
