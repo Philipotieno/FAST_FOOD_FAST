@@ -63,7 +63,7 @@ class User(Base):
 	@staticmethod
 	def decode_token(token):
 		'''method to decode tokens after being generated'''
-		payload = jwt.encode(payload, str(current_app.config.get('SECRET')), algorithm = 'HS256')
+		payload = jwt.dencode(payload, str(current_app.config.get('SECRET')), algorithm = 'HS256')
 		return payload
 
 	@classmethod
