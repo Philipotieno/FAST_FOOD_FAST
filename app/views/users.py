@@ -43,4 +43,5 @@ class Login(Resource):
 		user = User.get_user_by_username(username)
 		if not user:
 			return {'message':'User not registered'}
-		return {'message' : 'You are now logged in', 'user':user.view()}, 200
+		token = user.generate_token()
+		return {'message' : 'You are now logged in', 'user':user.view(), 'token':token}, 200

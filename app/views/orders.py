@@ -2,19 +2,21 @@ from flask import Flask, request
 from flask_restful import Resource, reqparse
 
 from app.api.v1.models import Order
+from app.api.v1.decorator import token_required
 
 class OrderResource(Resource):
 	parser = reqparse.RequestParser()
 	parser.add_argument('food')
 	parser.add_argument('price')
 
-	def post(self):
+	@token_required
+	def post(self, user_id):
 		'''method to post all orders'''
 		args = OrderResource.parser.parse_args()
-		food = args.get('food')
-		price = args.get('price')
+		food = args.get('food', required=True, help='Food cannot be blank', type=str)
+		price = args.get('price', required=True, help='Price cannot be blank', type=int)
 
-		order = Order(food=food, price=price)
+		order = Order(food=food, price=price, user_id=user_id)
 		order = order.save()
 
 		return {'message' : 'you have place your order', 'order':order},201

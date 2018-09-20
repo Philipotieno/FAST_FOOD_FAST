@@ -1,4 +1,5 @@
 from flask import current_app
+import jwt
 
 class DATABASE():
 	def __init__(self):
@@ -28,6 +29,12 @@ class User():
 		db.users.update({self.id: self})
 		db.all_users += 1
 		return self.view()
+
+	def generate_token(self):
+		'''method to generate tokens on user log in'''
+		payload = {'username': self.username, 'id':self.id}
+		tokens = jwt.encode(payload, str(current_app.config.get('SECRET')), algorithm = 'HS256')
+		return tokens.decode()
 
 	@classmethod
 	def get_user_by_email(cls, email):
