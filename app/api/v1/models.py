@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta
 from flask import current_app
 import jwt
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -18,16 +19,18 @@ class Base():
         # Validate keys before passing to data.
         for key in data:
             setattr(self, key, data[key])
-        setattr(self, 'last_modified', datetime.utcnow().isoformat())    
+        setattr(self, 'modified', datetime.utcnow().isoformat())    
         return self.view()
 
-class User():
+class User(Base):
 	'''User model class'''
 	def __init__(self, username, password, email):
 		self.username = username
 		self.email = email
-		self.password = password
+		self.password = generate_password_hash(password)
 		self.id = None
+		self.created = datetime.utcnow().isoformat()
+		self.modified = datetime.utcnow().isoformat()
 
 	def view(self):
 		'''View oject user in json format'''
@@ -42,9 +45,18 @@ class User():
 		db.orders.update({self.id: {}})
 		return self.view()
 
+	def password_validation(self, password):
+		'''validate password'''
+		if check_password_hash(self.password, password):
+			return True
+		return False
+
 	def generate_token(self):
 		'''method to generate tokens on user log in'''
-		payload = {'username': self.username,'id': self.id}
+		payload = {'exp' : datetime.utcnow()+timedelta(minutes=30),
+					'iat' : datetime.utcnow(),
+					'username': self.username,
+					'id': self.id}
 		tokens = jwt.encode(payload, str(current_app.config.get('SECRET')), algorithm = 'HS256')
 		return tokens.decode()
 
@@ -80,12 +92,14 @@ class User():
 				return user
 		return None
 
-class Order():
+class Order(Base):
 	'''class to model order'''
 	def __init__(self, food, price, user_id):
 		self.food = food
 		self.price =price
 		self.id = None
+		self.created = datetime.utcnow().isoformat()
+		self.modified = datetime.utcnow().isoformat()
 		self.user_id = user_id
 
 	def save(self):
