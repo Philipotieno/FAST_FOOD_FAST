@@ -1,5 +1,6 @@
 from flask import current_app
 import jwt
+from werkzeug.security import check_password_hash, generate_password_hash
 
 class DATABASE():
 	'''class for database'''
@@ -9,10 +10,16 @@ class DATABASE():
 		self.all_users  = 0
 		self.all_orders  = 0
 
-	# def drop(self):
-	# 	self.__init__()
-
 db = DATABASE()
+
+class Base():
+    '''Base class to be inherited by User and Entry classes'''   
+    def update(self, data):
+        # Validate keys before passing to data.
+        for key in data:
+            setattr(self, key, data[key])
+        setattr(self, 'last_modified', datetime.utcnow().isoformat())    
+        return self.view()
 
 class User():
 	'''User model class'''

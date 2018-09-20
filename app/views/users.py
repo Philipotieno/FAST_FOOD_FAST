@@ -18,17 +18,19 @@ class RegisterUser(Resource):
 		email = args.get('email')
 		password = args.get('password')
 
-        email_format = re.compile(
-        r"(^[a-zA-Z0-9_.-]+@[a-zA-Z-]+\.[a-zA-Z-]+$)")
-        username_format = re.compile(r"(^[A-Za-z]+$)")
+		validate_email = re.compile(
+			r"(^[a-zA-Z0-9_.-]+@[a-zA-Z-]+\.[a-zA-Z-]+$)")
+		validate_username = re.compile(r"(^[A-Za-z]+$)")
 
-        if not (re.match(username_format, username)):
-            return {'message' : 'Invalid username'}, 400
-        elif not (re.match(email_format, email)):
-            return {'message': 'Invalid email. Ensure email is of the form example@mail.com'}, 400
-        if len(username) < 4:
-            return {'message' : 'Username should be atleast 4 characters'}, 400
-        if no_input(username) or no_input(email) or no_input(password):
+		if not (re.match(validate_username, username)):
+			return {'message' : 'Username should have letters only'}, 400
+		elif not (re.match(validate_email, email)):
+			return {'message': 'Ensure email is of the form example@mail.com'}, 400
+		if len(username) < 4:
+			return {'message' : 'Username should have more than 4 letters'}, 400
+		if len(password) < 8:
+			return {'message' : 'Password should have atleast 8 characters'}, 400
+		if no_input(username) or no_input(email) or no_input(password):
 			return {'message':'Fill all the fields'}, 400
 
 		username_exists = User.get_user_by_username(username=args['username'])
