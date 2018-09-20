@@ -57,13 +57,13 @@ class User(Base):
 					'iat' : datetime.utcnow(),
 					'username': self.username,
 					'id': self.id}
-		tokens = jwt.encode(payload, str(current_app.config.get('SECRET')), algorithm = 'HS256')
-		return tokens.decode()
+		token = jwt.encode(payload, str(current_app.config.get('SECRET')), algorithm = 'HS256')
+		return token.decode()
 
 	@staticmethod
 	def decode_token(token):
 		'''method to decode tokens after being generated'''
-		payload = jwt.dencode(payload, str(current_app.config.get('SECRET')), algorithm = 'HS256')
+		payload = jwt.decode(token, str(current_app.config.get('SECRET')), algorithm = 'HS256')
 		return payload
 
 	@classmethod
@@ -111,7 +111,7 @@ class Order(Base):
 
 	def view(self):
 		'''method to convert orders to json'''
-		keys = ('id', 'food', 'price', 'user_id')
+		keys = ('id', 'food', 'price', 'user_id', 'created', 'modified')
 		return {key: getattr(self, key) for key in keys}
 
 	@classmethod

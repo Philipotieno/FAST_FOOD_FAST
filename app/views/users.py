@@ -3,7 +3,6 @@ from flask_restful import Resource, reqparse
 import re
 
 from app.api.v1.models import User
-from app.api.v1.decorator import no_input
 
 class RegisterUser(Resource):
 	parser = reqparse.RequestParser()
@@ -30,8 +29,8 @@ class RegisterUser(Resource):
 			return {'message' : 'Username should have more than 4 letters'}, 400
 		if len(password) < 8:
 			return {'message' : 'Password should have atleast 8 characters'}, 400
-		if no_input(username) or no_input(email) or no_input(password):
-			return {'message':'Fill all the fields'}, 400
+		# if no_input(username) or no_input(email) or no_input(password):
+		# 	return {'message':'Fill all the fields'}, 400
 
 		username_exists = User.get_user_by_username(username=args['username'])
 		email_exists = User.get_user_by_email(email=args['email'])
@@ -57,11 +56,13 @@ class Login(Resource):
 		username = args['username']
 		password = args['password']
 
-		if no_input(username) or no_input(password):
-			return {'message':'Fill all the fields'}, 400
+		# if no_input(username) or no_input(password):
+		# 	return {'message':'Fill all the fields'}, 400
 
 		user = User.get_user_by_username(username)
 		if not user:
 			return {'message':'User not registered'}, 404
-		token = user.generate_token()
-		return {'message' : 'You are now logged in', 'user':user.view(), 'token':token}, 200
+		if user.password_validation(password):
+			token = user.generate_token()
+			return {'message' : 'You are now logged in', 'user':user.view(), 'token':token}, 200
+		return {'message' : 'Wrong userbame or password'}
