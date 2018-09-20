@@ -9,6 +9,7 @@ def create_app(config_name):
 	api = Api(app)
 
 	app.config.from_object(instance.config.app_config)
+	app.url_map.strict_slashes = False
 
 	from app.views.users import RegisterUser, Login
 	from app.views.orders import OrderResource

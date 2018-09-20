@@ -8,6 +8,9 @@ class DATABASE():
 		self.all_users  = 0
 		self.all_orders  = 0
 
+	# def drop(self):
+	# 	self.__init__()
+
 db = DATABASE()
 
 class User():
@@ -19,7 +22,7 @@ class User():
 		self.id = None
 
 	def view(self):
-		'''jsonify user object'''
+		'''View oject user in json format'''
 		keys = ['username', 'email', 'id']
 		return {key: getattr(self, key) for key in keys}
 
@@ -28,11 +31,12 @@ class User():
 		setattr(self, 'id', db.all_users + 1)
 		db.users.update({self.id: self})
 		db.all_users += 1
+		db.orders.update({self.id: {}})
 		return self.view()
 
 	def generate_token(self):
 		'''method to generate tokens on user log in'''
-		payload = {'username': self.username, 'id':self.id}
+		payload = {'username': self.username, 'id': self.id}
 		tokens = jwt.encode(payload, str(current_app.config.get('SECRET')), algorithm = 'HS256')
 		return tokens.decode()
 
@@ -41,7 +45,14 @@ class User():
 		'''method to decode tokens after being generated'''
 		payload = jwt.encode(payload, str(current_app.config.get('SECRET')), algorithm = 'HS256')
 		return payload
-		
+	@classmethod
+	def get(cls, id):
+		'''method to get user by id'''
+		user = db.users.get(id)
+		if user:
+			return user
+		return {'message' : 'User does not exist'}
+
 	@classmethod
 	def get_user_by_email(cls, email):
 		'''Method for getting user by email'''
@@ -62,26 +73,28 @@ class User():
 
 class Order():
 	'''class to model order'''
-	def __init__(self, food, price):
+	def __init__(self, food, price, user_id):
 		self.food = food
 		self.price =price
 		self.id = None
+		self.user_id = user_id
 
 	def save(self):
 		'''method to fave food orders'''
 		setattr(self, 'id', db.all_orders + 1)
 		db.all_orders += 1
+		db.orders[self.user_id].update({self.id: {}})
 		return self.view()
 
 	def view(self):
 		'''method to convert orders to json'''
-		keys = ('id', 'food', 'price')
+		keys = ('id', 'food', 'price', 'user_id')
 		return {key: getattr(self, key) for key in keys}
 
 	@classmethod
-	def get(cls,id=None):
+	def get(cls, user_id, id=None):
 		'''method to get orders'''
-		user_orders = db.orders.get(id)
+		user_orders = db.orders.get(user_id)
 		if not user_orders:
 			return {'message':'No orders'}
 		if id:

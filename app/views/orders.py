@@ -5,16 +5,17 @@ from app.api.v1.models import Order
 from app.api.v1.decorator import token_required
 
 class OrderResource(Resource):
+	'''resources for user ordrs'''
 	parser = reqparse.RequestParser()
-	parser.add_argument('food')
-	parser.add_argument('price')
+	parser.add_argument('food', required=True, help='Food cannot be blank', type=str)
+	parser.add_argument('price', required=True, help='Food cannot be blank', type=int)
 
 	@token_required
 	def post(self, user_id):
 		'''method to post all orders'''
 		args = OrderResource.parser.parse_args()
-		food = args.get('food', required=True, help='Food cannot be blank', type=str)
-		price = args.get('price', required=True, help='Price cannot be blank', type=int)
+		food = args.get('food', '')
+		price = args.get('price', '')
 
 		order = Order(food=food, user_id=user_id, price=price)
 		order = order.save()
