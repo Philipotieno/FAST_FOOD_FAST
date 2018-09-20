@@ -17,11 +17,17 @@ class OrderResource(Resource):
 		order = Order(food=food, price=price)
 		order = order.save()
 
-		return {'message' : 'you have place your order', 'order':order}
+		return {'message' : 'you have place your order', 'order':order},201
 
-	def get():
-		'''method to get a food order'''
-		pass
+	def get(self, order_id=None):
+		'''method to get all food order and single food order'''
+		user_order = Order.get(id=order_id)
+		if isinstance(user_order, Order):
+			return {'message':'Order found', 'order': user_order.view()}, 200
+
+		if user_order.get('message'):
+			return user_order, 404
+		return {'message':'Your orders', 'orders': [user_order[order].view()for order in user_order]}
 
 	def put():
 		'''method to update agiven food order'''

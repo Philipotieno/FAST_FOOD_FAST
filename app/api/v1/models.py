@@ -64,3 +64,16 @@ class Order():
 		'''method to convert orders to json'''
 		keys = ('id', 'food', 'price')
 		return {key: getattr(self, key) for key in keys}
+
+	@classmethod
+	def get(cls,id=None):
+		'''method to get orders'''
+		user_orders = db.orders.get(id)
+		if not user_orders:
+			return {'message':'No orders'}
+		if id:
+			order = user_orders.get(id)
+			if order:
+				return order
+			return {'message':'User does not have an order'}
+		return user_orders

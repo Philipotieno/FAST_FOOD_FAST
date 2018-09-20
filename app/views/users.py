@@ -5,9 +5,9 @@ from app.api.v1.models import User
 
 class RegisterUser(Resource):
 	parser = reqparse.RequestParser()
-	parser.add_argument('username')
-	parser.add_argument('email')
-	parser.add_argument('password')
+	parser.add_argument('username', required=True, help='Username cannot be blank', type=str)
+	parser.add_argument('email', required=True, help='Email cannot be blank', type=str)
+	parser.add_argument('password', required=True, help='Password cannot be blank', type=str)
 
 	def post(self):
 		'''methods=['POST']'''
