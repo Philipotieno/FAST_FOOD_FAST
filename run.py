@@ -1,4 +1,3 @@
-''''this is the entry point to fire up the app'''
 import os
 
 from app.api.v1 import create_app
