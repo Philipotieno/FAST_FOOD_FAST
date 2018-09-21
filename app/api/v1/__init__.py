@@ -22,5 +22,4 @@ def create_app(config_name):
 	def home():
 		return render_template('index.html')
 
-
 	return app #retuns to the app after loading configurations
