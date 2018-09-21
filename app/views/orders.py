@@ -17,9 +17,6 @@ class OrderResource(Resource):
 		food = args.get('food', '')
 		price = args.get('price', '')
 
-		# if no_input(food) or no_input(price):
-		# 	return {'message':'Fill all the required fields'}, 400
-
 		order = Order(food=food, user_id=user_id, price=price)
 		order = order.save()
 
@@ -41,7 +38,7 @@ class OrderResource(Resource):
 		'''method to update agiven food order'''
 		order = Order.get(user_id=user_id, id=order_id)
 		if isinstance(order, dict):
-			return order, 404
+			return order, 404 #No orders if user_id
 		post_data = request.get_json()
 		food = post_data.get('food', None)
 		price =post_data.get('price', None)
