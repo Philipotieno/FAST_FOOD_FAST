@@ -56,8 +56,6 @@ class Login(Resource):
 		username = args['username']
 		password = args['password']
 
-		# if no_input(username) or no_input(password):
-		# 	return {'message':'Fill all the fields'}, 400
 
 		user = User.get_user_by_username(username)
 		if not user:
