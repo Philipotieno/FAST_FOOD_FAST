@@ -18,9 +18,3 @@ def token_required(func):
 		except Exception as e:
 			return {'message' : 'an error occured', 'error':str(e)}, 400
 	return decorated
-
-# def no_input(var):
-# 	'''Checks if requred field is empty'''
-# 	if var.strip() == '':
-# 		return 'Fill all the fields'
-# 	return None
