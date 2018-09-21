@@ -36,10 +36,20 @@ class OrderResource(Resource):
 			return user_order, 404
 		return {'message':'Your orders', 'orders': [user_order[order].view() for order in user_order]}
 
-	def put():
+	@token_required
+	def put(self, user_id, order_id):
 		'''method to update agiven food order'''
-		pass
+		order = Order.get(user_id=user_id, id=order_id)
+		if isinstance(order, dict):
+			return order, 404
+		post_data = request.get_json()
+		food = post_data.get('food', None)
+		price =post_data.get('price', None)
+		data = {}
+		if food:
+			data.update({'food':food})
+		if price:
+			data.update({'price':price})
 
-	def delete():
-		'''method to delete a given order'''
-		pass
+		order = order.update(data=data)
+		return {'message' : 'Order updated', 'New_order' : order}, 200
