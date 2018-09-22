@@ -2,7 +2,7 @@ import unittest
 import json
 
 from app.api.v1 import create_app
-from app.api.v1.models import db, User, Order
+from app.api.v1.models import User, Order, db
 
 SIGNUP_URL = '/api/v1/user/signup'
 LOGIN_URL = '/api/v1/user/login'
@@ -19,7 +19,7 @@ class BaseClass(unittest.TestCase):
 		self.user_data = { 
 					"username" : "philioti",
 					"email" : "philiotieb@gmail.com",
-					"password" : "12wdrt56"
+					"password" : "password"
 					}
 		self.order_data = { 
 					"food" : "nyama",
@@ -49,11 +49,11 @@ class BaseClass(unittest.TestCase):
 
 		#user can log in
 		res = self.client.post(LOGIN_URL,
-			data = json.dumps({"username" : "philioti", "password" : "12wdrt56"}), 
-			content_type = 'apllication/json')
+			data = json.dumps({"username" : "philioti", "password" : "password"}), 
+			content_type = "apllication/json")
 
 		return res
 
 		def tearDown(self):
-			'''Deletes the bd after test'''
+			'''Deletes the db after test'''
 			db.drop()
