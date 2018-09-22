@@ -11,6 +11,9 @@ class DATABASE():
 		self.all_users  = 0
 		self.all_orders  = 0
 
+	def drop(self):
+		self.__init__()
+
 db = DATABASE()
 
 class Base():
