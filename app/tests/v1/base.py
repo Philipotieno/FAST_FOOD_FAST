@@ -37,7 +37,7 @@ class BaseClass(unittest.TestCase):
 					user_id= 1
 			)
 		self.test_user = User(
-			username='tunchi',
+			username='phillips',
 			email = 'tunechir@gmail.com',
 			password = 'test1234'
 			)
