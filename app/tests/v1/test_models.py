@@ -2,7 +2,7 @@ from .base import BaseClass
 from app.api.v1.models import Order, User, db
 
 class TestModels(BaseClass):
-	'''models test cases'''
+    '''models test cases'''
 	def test_save_user(self):
 		'''Test if user adata is being saved'''
 		user = self.first_user.save()

@@ -10,7 +10,6 @@ install:
 
 script: 
   - python -m pytest --cov-report term-missing --cov=app
-  - coverage run --source=mypkg run.py test
 
 after_success:
   - coveralls

@@ -6,4 +6,4 @@ config = os.getenv('APP_SETTING')
 app = create_app(config)
 
 if __name__ == '__main__':
-	app.run(debug=True, port=5008)
+    app.run(debug=True, port=5008)
