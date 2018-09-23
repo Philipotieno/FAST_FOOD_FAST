@@ -54,37 +54,6 @@ Clone this repository:
   $ git clone https://github.com/Philipotieno/FAST_FOOD_FAST.git
 
 ```
-Make sure your files are in this structure
-  ├── FAST_FOOD_FAST (this is the directory to cd into)
-    ├── app----------------------------|
-    │   ├── api                        |
-    |        └──v1                     |
-    |            └──template           |
-    |                 └──index.htm     |
-    |            └──views             ,|
-    |                 └──orders.py     |
-    |                 └──users.py      |
-    |                 └──__init__.py   |
-    |            └──decorators.py      |
-    |            └──models.py          |
-    |            └──__init__.py        |
-    |        └── __init__.py           |
-    │   ├── tests                      |
-    |        |──v1                     |
-    |                                  |
-    │   ├── __init__.py                |
-    │                                  |
-    ├── instance                       |
-    │   └── config.py                  |
-    │   └── __init__.py                |
-    |                                  |
-    ├── .gitignre                      |
-    ├── .travis.yml                    |
-    ├── Procfile                       |
-    ├── README.md                      |
-    ├── requirements.txt               |
-    ├── run.py                         |
-    └── runtime.txt--------------------|
 Get into the root directory:
 ```
 
