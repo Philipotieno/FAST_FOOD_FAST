@@ -63,4 +63,4 @@ class Login(Resource):
 		if user.password_validation(password):
 			token = user.generate_token()
 			return {'message' : 'You are now logged in', 'user':user.view(), 'token':token}, 200
-		return {'message' : 'Wrong userbame or password'}
+		return {'message' : 'Wrong username or password'}

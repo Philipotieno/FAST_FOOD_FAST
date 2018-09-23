@@ -1,6 +1,5 @@
 .pytest_cache
 .env
-.vscode
 venv/
 .env
 .pytest_cache/
@@ -9,3 +8,4 @@ app/__pycache__/
 *.pyc
 __pycache__
 .coverage
+/instance

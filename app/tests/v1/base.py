@@ -41,19 +41,7 @@ class BaseClass(unittest.TestCase):
 			email = 'tunechir@gmail.com',
 			password = 'test1234'
 			)
-
-	def logged_in(self):
-		#User is first created
-		self.client.post(SIGNUP_URL,
-		data = json.dumps(self.user_data), content_type = 'apllication/json')
-
-		#user can log in
-		res = self.client.post(LOGIN_URL,
-			data = json.dumps({"username" : "philioti", "password" : "password"}), 
-			content_type = "apllication/json")
-
-		return res
-
+		
 	def tearDown(self):
 		'''Deletes the db after test'''
 		db.drop()
