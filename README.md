@@ -25,6 +25,18 @@ Fast-Food-Fast is a food delivery service app for a restaurant
 
 or
 
+
+**To Test the followig endpoints with postman:**
+
+| Method   |Description            |Endpoint                            |
+| ---------|-----------------------|------------------------------------|
+| POST     |Register users         |/api/v1/users/signup                |
+| POST     |Log in users           |/api/v1/users/login                 |
+| POST     |Make an order          |/api/v1/users/orders                |    
+| GET      |Get all orders         |/api/v1/users/orders                |   
+| GET      |Get specific orders    |/api/v1/users/orders/<int:order_id> |   
+| PUT      |Update specific orders |/api/v1/users/orders/<int:order_id> |   
+
 **To start the following app, follow the instructions below:**
 
 **On your terminal:**
@@ -64,8 +76,6 @@ Install the requirements of the project:
 Run the application:
 
   $ python run.py
-
-Test the endpoints with postman
 
 To run tests:
 
