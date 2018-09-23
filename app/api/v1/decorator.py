@@ -16,5 +16,5 @@ def token_required(func):
 				return func(user_id=user_id, *args, **kwargs)
 			return {'message' : 'you are not logged in/session expired'}, 401
 		except Exception as e:
-			return {'message' : 'an error occured', 'error':str(e)}, 400
+			return {'message' : 'Authentication error', 'error':str(e)}, 400
 	return decorated

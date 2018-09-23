@@ -54,6 +54,6 @@ class BaseClass(unittest.TestCase):
 
 		return res
 
-		def tearDown(self):
-			'''Deletes the db after test'''
-			db.drop()
+	def tearDown(self):
+		'''Deletes the db after test'''
+		db.drop()
