@@ -11,6 +11,10 @@ class DATABASE():
 		self.all_users  = 0
 		self.all_orders  = 0
 
+	def drop(self):
+		'''clears data'''
+		self.__init__()
+
 db = DATABASE()
 
 class Base():
@@ -124,5 +128,5 @@ class Order(Base):
 			order = user_orders.get(id)
 			if order:
 				return order
-			return {'message':'User does not have an order'}
+			return {'message':'User does not have that order'}
 		return user_orders

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>FAST-FOOD</title>
+    <style type="text/css">
+        h1, h3, h2{
+        	color:green;
+        }
+    	.center{
+    		margin-left:auto;
+    		margin-right: auto;
+    		width:70%;
+    		align-content: center;
+    		justify-content: center;
+    	}
+    	.wide{
+    		background: #ffb3ff;
+    		padding:20px;
+    		box-shadow: 2px 2px 2px lightgray;
+    	}
+    	body{
+    		background:#33ffff;
+    	}
+    	.text-center{
+    		text-align: center;
+    	}
+    	hr{
+    		border-width: 0.4px;
+    	}
+        code{
+            background: #efa;
+            -webkit-border-radius: 2px;
+            -moz-border-radius: 2px;
+            border-radius: 2px;
+        }
+    </style>
+
+  </head>
+  <body>
+  	<div class="center wide">
+     <h1 class="text-center">Deployed to heroku, test endpoints on postman</h1>
+     <hr>
+     <p><a href="https://github.com/Philipotieno/FAST_FOOD_FAST" target="blank">My Repository</a></p>
+     <p><strong>How to test for the API endpoints on postman</strong></p>
+     <ol>
+     	<li><strong><em>To Register a User follow these steps</em>(POST Request)</strong>
+        <ol>
+            <li><h3>Copy the above URL on this page and to it add <code lang="html">/api/v1/user/signup</code> </h3></li>
+            <li><h3>Paste it on postman params: Example <code lang="html">app_name.herokuapp.com/api/v1/user/signup</code> </h3></li>
+            <li><h3>Go to the body and add user registration details in JSON format</h3></li>
+            <p><h3>Example:</h3>{ "username":"herokuapp", "email":"heroukuapp@gmaill.com", "password":"heroku1234"
+               }</p>
+            <li><h3>Click send and wait for the response,incase of any errors check on the datails used to register, make sure to pu a comma after evey detail except the last details</h3></li>
+        </ol>
+
+        <li><strong><em>To Log a User follow these steps</em>(POST Request)</strong>
+        <ol>
+            <li><h3>Copy the above URL on this page and to it add <code lang="html">/api/v1/user/login'</code> </h3></li>
+            <li><h3>Paste it on postman params: Example <code lang="html">app_name.herokuapp.com/api/v1/user/login'</code> </h3></li>
+            <li><h3>Go to the body and add user login details in JSON format</h3></li>
+            <p><h3>Example:</h3>{ "username":"herokuapp","password":"heroku1234"
+               }</p>
+            <li><h3>Click send and wait for the response,incase of any errors check on the datails used, make sure to pu a comma after evey detail except the last details</h3></li>
+        </ol>
+       <li><strong><em>To Place an order follow this steps</em>(POST Request)</strong>
+         <ol>
+            <li><h3>Copy the above URL on these page and to it add <code lang="html">/api/v1/user/orders'</code> </h3></li>
+            <li><h3>Paste it on postman params: Example <code lang="html">app_name.herokuapp.com/api/v1/user/orders'</code> </h3></li>
+            <li><h3>Go to the body and add order details in JSON format</h3></li>
+            <p><h3>Example:</h3>{ "food":"nyama","price":"1234"
+               }</p>
+            <li><h3>Go to the Auth Header and add bearer token details from the log in response </h3></li>
+            <li><h3>Click send and wait for the response,incase of any errors check on the datails used, make sure to put a comma after evey detail except the last details, make sure you have use the tokens to place an order</h3></li>
+        </ol>
+       <li><strong><em>To View all orders follow these steps</em>(GET Request)</strong>
+         <ol>
+            <li><h3>Copy the above URL on this page and to it add <code lang="html">/api/v1/user/orders'</code> </h3></li>
+            <li><h3>Paste it on postman params: Example <code lang="html">app_name.herokuapp.com/api/v1/user/orders'</code> </h3></li>
+            <li><h3>Click send and wait for the response,incase of any errors check on the datails used, make sure to put a comma after evey detail except the last details, make sure you have use the tokens to place an order</h3></li>
+        </ol>
+       <li><strong><em>To View specific orders follow this steps</em>(GET Request)</strong>
+         <ol>
+            <li><h3>Copy the above URL on this page and to it add <code lang="html">/api/v1/user/orders/1'</code> </h3></li>
+            <li><h3>Paste it on postman params: Example <code lang="html">app_name.herokuapp.com/api/v1/user/orders/1'</code><h6>1 represents the specific order_id</h6></h3></li>
+            <li><h3>Click send and wait for the response,incase of any errors check on the datails used, make sure to put a comma after evey detail except the last details, make sure you have use the tokens to place an order</h3></li>
+        </ol>
+       <li><strong><em>To Update a specific order follow these steps</em>(POST Request)</strong>
+         <ol>
+            <li><h3>Copy the above URL on this page and to it add <code lang="html">/api/v1/user/orders/1'</code> </h3></li>
+            <li><h3>Paste it on postman params: Example <code lang="html">app_name.herokuapp.com/api/v1/user/orders/1'</code> </h3><h6>1 represents the specific order_id</h6></li>
+            <li><h3>Go to the body and add order details in JSON format</h3></li>
+            <p><h3>Example:</h3>{ "food":"nyama","price":"1234"
+               }</p>
+            <li><h3>Go to the Auth Header and add bearer token details from the log in response </h3></li>
+            <li><h3>Click send and wait for the response,incase of any errors check on the datails used, make sure to put a comma after evey detail except the last details, make sure you have use the tokens to place an order</h3></li>
+        </ol>
+
+    </div>
+
+  </body>
+</html>
