@@ -12,7 +12,7 @@ class DATABASE():
 		self.all_orders  = 0
 
 	def drop(self):
-		'''clears database'''
+		'''clears data'''
 		self.__init__()
 
 db = DATABASE()
@@ -22,8 +22,8 @@ class Base():
     def update(self, data):
         # Validate keys before passing to data.
         for key in data:
-            # setattr(self, key, data[key])
-            setattr(self, 'modified', datetime.utcnow().isoformat())    
+            setattr(self, key, data[key])
+        setattr(self, 'modified', datetime.utcnow().isoformat())    
         return self.view()
 
 class User(Base):
@@ -57,7 +57,7 @@ class User(Base):
 
 	def generate_token(self):
 		'''method to generate tokens on user log in'''
-		payload = {'exp' : datetime.utcnow()+timedelta(minutes=60),
+		payload = {'exp' : datetime.utcnow()+timedelta(minutes=30),
 					'iat' : datetime.utcnow(),
 					'username': self.username,
 					'id': self.id}
