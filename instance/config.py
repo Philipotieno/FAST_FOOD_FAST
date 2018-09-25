@@ -4,6 +4,7 @@ import os
 class Config(object):
     '''Parent configuration class'''
     DEBUG = False
+    SECRET = os.environ['SECRET']
 
 class Development(Config):
     '''Configuration for development environment'''
