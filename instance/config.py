@@ -4,7 +4,6 @@ import os
 class Config(object):
     '''Parent configuration class'''
     DEBUG = False
-    SECRET = os.environ['SECRET']
 
 class Development(Config):
     '''Configuration for development environment'''
@@ -18,8 +17,10 @@ class Production(Config):
     '''Configuration for production environment'''
     DEBUG = False
 
+'''Used to export the above environments'''
 app_config = {
     'development': Development,
     'testing': Testing,
     'production': Production
     }
+    

@@ -28,9 +28,9 @@ Fast-Food-Fast is a food delivery service app for a restaurant
 or
 
 **To Test the followig endpoints with postman**
-You have to register a user and log in
-Use the token provided during log in for authorisation
-authorization type(Bearer Token)
+- You have to register a user and log in
+- Use the token provided during log in for authorisation
+  authorization type(Bearer Token)
 
 | Method   |Description            |Endpoint                            |
 | ---------|-----------------------|------------------------------------|
@@ -91,8 +91,8 @@ Activate the virtualenv:
 ```
 Create a .env file add the following
 
-export FLASK_RYN="run.py"
-export SECRET = 'mysecretisgood'
+- export FLASK_RUN="run.py"
+- export SECRET = 'yoursecretkey'
 ```
 
   $ source .env
