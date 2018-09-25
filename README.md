@@ -22,12 +22,14 @@ Fast-Food-Fast is a food delivery service app for a restaurant
 ## Getting Started:
 
 **For the documentation [https://documenter.getpostman.com/view/4739958/RWaPu6Tz](https://documenter.getpostman.com/view/4739958/RWaPu6Tz)
-**You can view the app on heroku at [https://chiemo.herokuapp.com/](https://chiemo.herokuapp.com/) and test the end points on postman
+**You can view the app on heroku at [https://chiemo.herokuapp.com/](https://chiemo.herokuapp.com/) and test the end points on postman**
 
 or
 
-
-**To Test the followig endpoints with postman you have to register a user and log in:**
+**To Test the followig endpoints with postman**
+You have to register a user and log in
+Use the token provided during log in for authorisation
+authorization type(Bearer Token)
 
 | Method   |Description            |Endpoint                            |
 | ---------|-----------------------|------------------------------------|
