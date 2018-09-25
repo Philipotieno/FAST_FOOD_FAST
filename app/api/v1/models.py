@@ -102,7 +102,7 @@ class Order(Base):
 	'''class to model order'''
 	def __init__(self, food, price, user_id):
 		self.food = food
-		self.price = rice
+		self.price = price
 		self.id = None
 		self.created = datetime.utcnow().isoformat()
 		self.modified = datetime.utcnow().isoformat()
