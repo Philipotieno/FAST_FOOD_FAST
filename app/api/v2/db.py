@@ -7,10 +7,9 @@ def connect_to_db(config=None):
 		db_name = os.getenv('TEST_DB')
 	else:
 		db_name = os.getenv('DB_NAME')
-
-	host = os.getenv('DB_HOST')
-	user = os.getenv('DB_USERNAME')
-	password = os.getenv('DB_PASSWORD')
+		host = os.getenv('DB_HOST')
+		user = os.getenv('DB_USERNAME')
+		password = os.getenv('DB_PASSWORD')
 
 
 	return connect(
