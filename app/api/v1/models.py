@@ -6,10 +6,10 @@ from werkzeug.security import check_password_hash, generate_password_hash
 class DATABASE():
 	'''class for database'''
 	def __init__(self):
-		self.users  = {}
-		self.orders  = {}
-		self.all_users  = 0
-		self.all_orders  = 0
+		self.users = {}
+		self.orders = {}
+		self.all_users = 0
+		self.all_orders = 0
 
 	def drop(self):
 		'''clears data'''
@@ -18,12 +18,12 @@ class DATABASE():
 db = DATABASE()
 
 class Base():
-    '''Base class to be inherited by User and Entry classes'''   
+    '''Base class to be inherited by User and Entry classes'''
     def update(self, data):
         # Validate keys before passing to data.
         for key in data:
             setattr(self, key, data[key])
-        setattr(self, 'modified', datetime.utcnow().isoformat())    
+        setattr(self, 'modified', datetime.utcnow().isoformat())
         return self.view()
 
 class User(Base):
@@ -57,10 +57,12 @@ class User(Base):
 
 	def generate_token(self):
 		'''method to generate tokens on user log in'''
-		payload = {'exp' : datetime.utcnow()+timedelta(minutes=30),
-					'iat' : datetime.utcnow(),
-					'username': self.username,
-					'id': self.id}
+		payload = {
+		'exp' : datetime.utcnow()+timedelta(minutes=30),
+		'iat' : datetime.utcnow(),
+		'username': self.username,
+		'id': self.id
+		}
 		token = jwt.encode(payload, str(current_app.config.get('SECRET')), algorithm = 'HS256')
 		return token.decode()
 
@@ -100,7 +102,7 @@ class Order(Base):
 	'''class to model order'''
 	def __init__(self, food, price, user_id):
 		self.food = food
-		self.price =price
+		self.price = price
 		self.id = None
 		self.created = datetime.utcnow().isoformat()
 		self.modified = datetime.utcnow().isoformat()
