@@ -32,19 +32,21 @@ def create_orders_table(cur):
 		id serial,
 		user_id INTEGER NOT NULL,
 		meal VARCHAR NOT NULL,
-		price INTEGER NOT NULl,
 		ordered_at timestamp NOT NULL,
-		modified_at timestamp NOT NULL);""")
+		modified_at timestamp NOT NULL,
+		PRIMARY KEY (user_id, id),
+		FOREIGN KEY (user_id) REFERENCES users(id));""")
 
 def create_menu_table(cur):
 	cur.execute(
 		"""CREATE TABLE IF NOT EXISTS menu(
 		id serial,
-		order_id INTEGER,
+		meal_id INTEGER,
 		meal VARCHAR NOT NULL,
 		price INTEGER NOT NULl,
 		added_at timestamp NOT NULL,
-		PRIMARY KEY (order_id)
+		PRIMARY KEY (meal_id, id),
+		FOREIGN KEY (meal_id) REFERENCES users(id)
 		);""")
 
 def main(config=None):
