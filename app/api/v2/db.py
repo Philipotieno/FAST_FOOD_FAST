@@ -6,18 +6,17 @@ def connect_to_db(config=None):
 	if config == 'testing':
 		db_name = os.getenv('TEST_DB')
 	else:
-		db_name = os.getenv('DB_NAME')
-		host = os.getenv('DB_HOST')
-		user = os.getenv('DB_USERNAME')
-		password = os.getenv('DB_PASSWORD')
+		db_name = "fastfood"
+		host = "localhost"
+		user = "philip"
+		password = "mphillips"
 
 
 	return connect(
 		database=db_name,
 		host=host,
 		user=user,
-		password=password
-		)
+		password=password)
 
 def create_users_table(cur):
 	cur.execute(
