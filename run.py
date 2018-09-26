@@ -1,7 +1,7 @@
 '''starts the serve'''
 import os
 
-from app.api.v1 import create_app
+from app.api.v2 import create_app
 
 config = os.getenv('APP_SETTING')
 app = create_app(config)
