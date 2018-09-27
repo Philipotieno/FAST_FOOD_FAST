@@ -14,9 +14,10 @@ def create_app(config_name):
 
 	with app.app_context():
 		from app.api.v2.views.users import Signup
+		from app.api.v2.views.users import Login
 
 
 	api.add_resource(Signup, '/api/v2/user/signup')
-		#api.add_resource(Login, '/api/v1/user/login')
+	api.add_resource(Login, '/api/v1/user/login')
 
 	return app
