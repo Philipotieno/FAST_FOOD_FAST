@@ -18,6 +18,6 @@ def create_app(config_name):
 
 
 	api.add_resource(Signup, '/api/v2/user/signup')
-	api.add_resource(Login, '/api/v1/user/login')
+	api.add_resource(Login, '/api/v2/user/login')
 
 	return app
