@@ -41,12 +41,12 @@ class OrderResource(Resource):
 			return order, 404 #No orders if user_id
 		post_data = request.get_json()
 		food = post_data.get('food', None)
-		price =post_data.get('price', None)
+		price =post_data.get('price', None) 
 		data = {}
 		if food:
 			data.update({'food':food})
 		if price:
 			data.update({'price':price})
 
-		order = order.update(data=data)
+		order = order.updates(data=data)
 		return {'message' : 'Order updated', 'New_order' : order}, 200

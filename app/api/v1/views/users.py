@@ -2,7 +2,7 @@ from flask import Flask
 from flask_restful import Resource, reqparse
 import re
 
-from app.api.v1.models import User
+from app.api.v1.models import User 
 
 class RegisterUser(Resource):
 	parser = reqparse.RequestParser()
@@ -29,8 +29,7 @@ class RegisterUser(Resource):
 			return {'message' : 'Username should have more than 4 letters'}, 400
 		if len(password) < 8:
 			return {'message' : 'Password should have atleast 8 characters'}, 400
-		# if no_input(username) or no_input(email) or no_input(password):
-		# 	return {'message':'Fill all the fields'}, 400
+			
 
 		username_exists = User.get_user_by_username(username=args['username'])
 		email_exists = User.get_user_by_email(email=args['email'])

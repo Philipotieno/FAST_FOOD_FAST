@@ -18,15 +18,14 @@ class DATABASE():
 db = DATABASE()
 
 class Base():
-    '''Base class to be inherited by User and Entry classes'''
-    def update(self, data):
+    '''Base class to be inherited Order classe'''
+    def updates(self, data):
         # Validate keys before passing to data.
         for key in data:
             setattr(self, key, data[key])
-        setattr(self, 'modified', datetime.utcnow().isoformat())
         return self.view()
 
-class User(Base):
+class User():
 	'''User model class'''
 	def __init__(self, username, password, email):
 		self.username = username
