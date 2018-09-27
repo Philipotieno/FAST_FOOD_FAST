@@ -3,7 +3,9 @@ from datetime import datetime, timedelta
 from flask import current_app
 import jwt
 from werkzeug.security import check_password_hash, generate_password_hash
+import psycopg2
 from psycopg2 import connect
+from flask import current_app
 
 from app.api.v2.db import connect_to_db
 
@@ -59,6 +61,7 @@ class User(Base):
         self.username = username
         self.email = email
         self.password = generate_password_hash(password)
+
     def add(self):
         cur.execute(
             """
@@ -66,6 +69,15 @@ class User(Base):
             VALUES (%s , %s, %s)
             """,
             (self.username, self.email, self.password))
+        '''Adding details to user table'''
+        try:
+        	cur.execute(
+        		"""
+        		INSERT INTO users(username, email, password)
+        		VALUES (%s, %s %s)""",
+        		(self.username, self.email, self.password))
+        except (Exception, psycopg2.IntegrityError) as e:
+        	p.pprint(e)
         self.save()
     
     @staticmethod
@@ -82,5 +94,23 @@ class User(Base):
             return True
         return False
 
+    @staticmethod
+    def generate_token(user):
+        '''Method for generating a token upon login'''
+        user_id, username = user[0], user[1]
+        payload = {
+            'user_id': user_id,
+            'username': username,
+            'exp': datetime.utcnow()+timedelta(minutes=6000),
+            'iat': datetime.utcnow()}
+        token = jwt.encode(payload, str(current_app.config.get('SECRET')), algorithm='HS256')
+        return token.decode()
+    
+    @staticmethod
+    def decode_token(token):
+        '''Method for decoding generated token'''
+        payload = jwt.decode(token, str(current_app.config.get('SECRET')), algorithms=['HS256'])
+        return payload
+        
 class Order(Base):
 	pass
