@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_restful import Resource, reqparse
 import re
-from app.api.v1.models import User
+from app.api.v2.models import User
 
 class Signup(Resource):
     '''Resource for user registration'''
@@ -20,7 +20,7 @@ class Signup(Resource):
         email_format = re.compile(
         r"(^[a-zA-Z0-9_.-]+@[a-zA-Z-]+\.[a-zA-Z-]+$)")
         username_format = re.compile(r"(^[A-Za-z]+$)")
-        
+
         if not (re.match(username_format, username)):
             return {'message' : 'Invalid username'}, 400
         elif not (re.match(email_format, email)):

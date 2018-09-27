@@ -8,7 +8,7 @@ from psycopg2 import connect
 from flask import current_app
 import pprint as p
 
-from app.api.v2.db import connect_to_db
+from .db import connect_to_db
 
 conn = connect_to_db(current_app.config.get('APP_SETTINGS'))
 conn.set_session(autocommit=True)
@@ -115,50 +115,50 @@ class Order(Base):
 	'''Class for eorder model'''
 	def __init__(self, meal, price, user_id):
 		'''initializes the order variables'''
-        self.meal = meal
-        self.price = price
-        self.user_id = user_id
-        self.ordered_at = datetime.utcnow().isoformat()
-        self.modified_at = datetime.utcnow().isoformat()
+		self.meal = meal
+		self.price = price
+		self.user_id = user_id
+		self.ordered_at = datetime.utcnow().isoformat()
+		self.modified_at = datetime.utcnow().isoformat()
 
-    def add(self):
-        '''Method for adding input into entries table'''
-        cur.execute(
-            """
-            INSERT INTO orders (user_id, meal, price, ordered_at, modified_at)
-            VALUES (%s , %s, %s, %s, %s)
-            """,
-            (self.user_id, self.title, self.description, self.created_at, self.last_modified))
-        
-        self.save()
-    
-    @staticmethod
-    def get(user_id, order_id=None):
-        '''Method for fetching both single and all entries'''
-        if order_id:
-            cur.execute("""SELECT * FROM orders WHERE user_id={} AND id={}""".format(user_id, order_id))
-            return cur.fetchone()
-        
-        cur.execute(
-            """SELECT
-                orders.id,
-                users.id,
-                meal,
-                price,
-                ordered_at,
-                modified_at
-            FROM users INNER JOIN orders ON orders.user_id=users.id WHERE users.id={}""".format(user_id))
-        user_orders = cur.fetchall()
-        return user_orders
 
-    @staticmethod  
-    def order_dict(order):
-        '''Method for returning entry details'''
-        return dict(
-            id=order[0],
-            user_id=order[1],
-            meal=order[2],
-            price=order[3],
-            ordered_at=order[4].isoformat(),
-            modified_at=order[5].isoformat()
+	def add(self):
+		'''Method for adding input into entries table'''
+		cur.execute(
+			"""
+			INSERT INTO orders (user_id, meal, price, ordered_at, modified_at)
+			VALUES (%s , %s, %s, %s, %s)
+			""",
+			(self.user_id, self.title, self.description, self.created_at, self.last_modified))
+		self.save()
+
+	@staticmethod
+	def get(user_id, order_id=None):
+		'''Method for fetching both single and all entries'''
+		if order_id:
+			cur.execute("""SELECT * FROM orders WHERE user_id={} AND id={}""".format(user_id, order_id))
+			return cur.fetchone()
+
+		cur.execute(
+			"""SELECT
+			orders.id,
+			users.id,
+			meal,
+			price,
+			ordered_at,
+			modified_at
+			FROM users INNER JOIN orders ON orders.user_id=users.id WHERE users.id={}""".format(user_id))
+		user_orders = cur.fetchall()
+		return user_orders
+
+	@staticmethod
+	def order_dict(order):
+		'''Method for returning entry details'''
+		return dict(
+			id=order[0],
+			user_id=order[1],
+			meal=order[2],
+			price=order[3],
+			ordered_at=order[4].isoformat(),
+			modified_at=order[5].isoformat()
         )
