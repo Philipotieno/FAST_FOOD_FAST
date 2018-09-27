@@ -12,10 +12,11 @@ def create_app(config_name):
 
 	app.config.from_object(instance.config.app_config)
 
-    with app.app_context():
-        from app.resources.users import Register, Login
+	with app.app_context():
+		from app.api.v2.views.users import Signup
 
-    api.add_resource(Register, '/api/v1/user/signup')
-    api.add_resource(Login, '/api/v1/user/login')
+
+	api.add_resource(Signup, '/api/v2/user/signup')
+		#api.add_resource(Login, '/api/v1/user/login')
 
 	return app

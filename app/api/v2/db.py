@@ -4,13 +4,12 @@ from psycopg2 import connect
 def connect_to_db(config=None):
 	'''func to connect to db'''
 	if config == 'testing':
-		db_name = "testdb"
+		db_name = os.getenv('TEST_DB')
 	else:
 		db_name = "fastfood"
-
-	host = "localhost"
-	user = "philip"
-	password = "mphillips"
+		host = "localhost"
+		user = "philip"
+		password = "mphillips"
 
 
 	return connect(
@@ -20,8 +19,9 @@ def connect_to_db(config=None):
 		password=password)
 
 def create_users_table(cur):
+	'''create table for users'''
 	cur.execute(
-		"""CREATE TABLE IF NOT EXISTS users(
+		"""CREATE TABLE users(
 		id serial PRIMARY KEY,
 		username VARCHAR NOT NULL UNIQUE,
 		email VARCHAR NOT NULL UNIQUE,
@@ -29,10 +29,11 @@ def create_users_table(cur):
 
 def create_orders_table(cur):
 	cur.execute(
-		"""CREATE TABLE IF NOT EXISTS orders(
+		"""CREATE TABLE orders(
 		id serial,
 		user_id INTEGER NOT NULL,
 		meal VARCHAR NOT NULL,
+		price INTEGER NOT NULL,
 		ordered_at timestamp NOT NULL,
 		modified_at timestamp NOT NULL,
 		PRIMARY KEY (user_id, id),
@@ -40,7 +41,7 @@ def create_orders_table(cur):
 
 def create_menu_table(cur):
 	cur.execute(
-		"""CREATE TABLE IF NOT EXISTS menu(
+		"""CREATE TABLE menu(
 		id serial,
 		meal_id INTEGER,
 		meal VARCHAR NOT NULL,
@@ -54,6 +55,9 @@ def main(config=None):
 	conn = connect_to_db(config=config)
 	conn.set_session(autocommit=True)
 	cur = conn.cursor()
+	cur.execute("""DROP TABLE IF EXISTS users CASCADE""")
+	cur.execute("""DROP TABLE IF EXISTS orders CASCADE""")
+	cur.execute("""DROP TABLE IF EXISTS menu CASCADE""")
 
 	create_users_table(cur)
 	create_orders_table(cur)

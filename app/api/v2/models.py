@@ -6,6 +6,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 import psycopg2
 from psycopg2 import connect
 from flask import current_app
+import pprint as p
 
 from app.api.v2.db import connect_to_db
 
@@ -18,7 +19,10 @@ class Base():
     '''Base class to set up database'''
 
     def save(self):
-        conn.commit()
+    	try:
+    		conn.commit()
+    	except Exception as e:
+    		raise e
 
     @staticmethod
     def get(table_name, **kwargs):
@@ -63,26 +67,21 @@ class User(Base):
         self.password = generate_password_hash(password)
 
     def add(self):
-        cur.execute(
-            """
-            INSERT INTO users (username, email, password)
-            VALUES (%s , %s, %s)
-            """,
-            (self.username, self.email, self.password))
-        '''Adding details to user table'''
-        try:
-        	cur.execute(
-        		"""
-        		INSERT INTO users(username, email, password)
-        		VALUES (%s, %s %s)""",
-        		(self.username, self.email, self.password))
-        except (Exception, psycopg2.IntegrityError) as e:
-        	p.pprint(e)
-        self.save()
-    
+    	'''Adding details to user table'''
+    	try:
+    		cur.execute(
+    			"""
+    			INSERT INTO users(username, email, password)
+    			VALUES(%s , %s, %s)""",
+    			(self.username, self.email, self.password))
+    	except (Exception, psycopg2.IntegrityError) as e:
+    		p.pprint(e)
+    	self.save()
+
     @staticmethod
     def user_dict(user):
-        return dict(
+    	'''metho to return user details'''
+    	return dict(
             id=user[0],
             username=user[1],
             email=user[2]
@@ -101,7 +100,7 @@ class User(Base):
         payload = {
             'user_id': user_id,
             'username': username,
-            'exp': datetime.utcnow()+timedelta(minutes=6000),
+            'exp': datetime.utcnow()+timedelta(minutes=60),
             'iat': datetime.utcnow()}
         token = jwt.encode(payload, str(current_app.config.get('SECRET')), algorithm='HS256')
         return token.decode()
@@ -111,6 +110,55 @@ class User(Base):
         '''Method for decoding generated token'''
         payload = jwt.decode(token, str(current_app.config.get('SECRET')), algorithms=['HS256'])
         return payload
-        
+
 class Order(Base):
-	pass
+	'''Class for eorder model'''
+	def __init__(self, meal, price, user_id):
+		'''initializes the order variables'''
+        self.meal = meal
+        self.price = price
+        self.user_id = user_id
+        self.ordered_at = datetime.utcnow().isoformat()
+        self.modified_at = datetime.utcnow().isoformat()
+
+    def add(self):
+        '''Method for adding input into entries table'''
+        cur.execute(
+            """
+            INSERT INTO orders (user_id, meal, price, ordered_at, modified_at)
+            VALUES (%s , %s, %s, %s, %s)
+            """,
+            (self.user_id, self.title, self.description, self.created_at, self.last_modified))
+        
+        self.save()
+    
+    @staticmethod
+    def get(user_id, order_id=None):
+        '''Method for fetching both single and all entries'''
+        if order_id:
+            cur.execute("""SELECT * FROM orders WHERE user_id={} AND id={}""".format(user_id, order_id))
+            return cur.fetchone()
+        
+        cur.execute(
+            """SELECT
+                orders.id,
+                users.id,
+                meal,
+                price,
+                ordered_at,
+                modified_at
+            FROM users INNER JOIN orders ON orders.user_id=users.id WHERE users.id={}""".format(user_id))
+        user_orders = cur.fetchall()
+        return user_orders
+
+    @staticmethod  
+    def order_dict(order):
+        '''Method for returning entry details'''
+        return dict(
+            id=order[0],
+            user_id=order[1],
+            meal=order[2],
+            price=order[3],
+            ordered_at=order[4].isoformat(),
+            modified_at=order[5].isoformat()
+        )
