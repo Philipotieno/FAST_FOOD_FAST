@@ -1,25 +1,26 @@
 import json
 from unittest import TestCase
-from app.instance.createdb import connect_to_db
-from instance.app import create_app
+from app.api.v2.db import connect_to_db
+from app.api.v2 import create_app
 
 SIGNUP_URL = '/api/v2/user/signup'
 LOGIN_URL = '/api/v2/user/login'
 
-class BaseTestClass(TestCase):
+class BaseClass(TestCase):
     '''Base class with setup for tests'''
     def setUp(self):
         conn = connect_to_db('testing')
         conn.set_session(autocommit=True)
         cur = conn.cursor()
-        cur.execute("""DROP TABLE IF EXISTS users CASCADE""" )
-        cur.execute("""DROP TABLE IF EXISTS entries CASCADE""" )
-        self.create_users_table(cur)
-        self.create_entries_table(cur)
+
+        # cur.execute("""DROP TABLE IF EXISTS users CASCADE""" )
+        # cur.execute("""DROP TABLE IF EXISTS orders CASCADE""" )
+        # self.create_users_table(cur)
+        # self.create_orders_table(cur)
         
         self.app = create_app('testing')
         with self.app.app_context():
-            from app.models import User, Order
+            from app.api.v2.models import User, Order
         self.client = self.app.test_client()
         self.order_model = Order
         self.user_model = User
@@ -29,7 +30,7 @@ class BaseTestClass(TestCase):
                     "email":"philip@gmail.com",
                     "password":"password"
                     }
-        self.oder_data = {
+        self.order_data = {
                     "meal": "kuku",
                     "price": "100"
                     }
@@ -38,10 +39,10 @@ class BaseTestClass(TestCase):
             email='testuser@email.com',
             password='password')
 
-        self.first_order = Entry(
-            meal='nyama',
-            price ='200',
-            user_id=1)
+        # self.first_order = Order(
+        #     meal='nyama',
+        #     price ='200',
+        #     user_id=1)
 
         self.test_user = User(
             username='apondi',
@@ -59,36 +60,36 @@ class BaseTestClass(TestCase):
         
         return res
     
-def create_users_table(cur):
-    cur.execute(
-        """CREATE TABLE IF NOT EXISTS users(
-        id serial PRIMARY KEY,
-        username VARCHAR NOT NULL UNIQUE,
-        email VARCHAR NOT NULL UNIQUE,
-        password VARCHAR NOT NULL);""")
+    def create_users_table(cur):
+        cur.execute(
+            """CREATE TABLE IF NOT EXISTS users(
+            id serial PRIMARY KEY,
+            username VARCHAR NOT NULL UNIQUE,
+            email VARCHAR NOT NULL UNIQUE,
+            password VARCHAR NOT NULL);""")
 
-def create_orders_table(cur):
-    cur.execute(
-        """CREATE TABLE IF NOT EXISTS orders(
-        id serial,
-        user_id INTEGER NOT NULL,
-        meal VARCHAR NOT NULL,
-        ordered_at timestamp NOT NULL,
-        modified_at timestamp NOT NULL,
-        PRIMARY KEY (user_id, id),
-        FOREIGN KEY (user_id) REFERENCES users(id));""")
+    def create_orders_table(cur):
+        cur.execute(
+            """CREATE TABLE IF NOT EXISTS orders(
+            id serial,
+            user_id INTEGER NOT NULL,
+            meal VARCHAR NOT NULL,
+            ordered_at timestamp NOT NULL,
+            modified_at timestamp NOT NULL,
+            PRIMARY KEY (user_id, id),
+            FOREIGN KEY (user_id) REFERENCES users(id));""")
 
-def create_menu_table(cur):
-    cur.execute(
-        """CREATE TABLE IF NOT EXISTS menu(
-        id serial,
-        meal_id INTEGER,
-        meal VARCHAR NOT NULL,
-        price INTEGER NOT NULl,
-        added_at timestamp NOT NULL,
-        PRIMARY KEY (meal_id, id),
-        FOREIGN KEY (meal_id) REFERENCES users(id)
-        );""")
-    
+    def create_menu_table(cur):
+        cur.execute(
+            """CREATE TABLE IF NOT EXISTS menu(
+            id serial,
+            meal_id INTEGER,
+            meal VARCHAR NOT NULL,
+            price INTEGER NOT NULl,
+            added_at timestamp NOT NULL,
+            PRIMARY KEY (meal_id, id),
+            FOREIGN KEY (meal_id) REFERENCES users(id)
+            );""")
+        
     def tearDown(self):
-        pass
+            pass

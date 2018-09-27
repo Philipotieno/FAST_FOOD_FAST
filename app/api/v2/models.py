@@ -3,9 +3,9 @@ from datetime import datetime, timedelta
 from flask import current_app
 import jwt
 from werkzeug.security import check_password_hash, generate_password_hash
-from pycopg2 import connect
+from psycopg2 import connect
 
-from instance.createdb import connect_to_db
+from app.api.v2.db import connect_to_db
 
 conn = connect_to_db(current_app.config.get('APP_SETTINGS'))
 conn.set_session(autocommit=True)
@@ -81,3 +81,6 @@ class User(Base):
         if check_password_hash(user[3], password):
             return True
         return False
+
+class Order(Base):
+	pass

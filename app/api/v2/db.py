@@ -4,12 +4,13 @@ from psycopg2 import connect
 def connect_to_db(config=None):
 	'''func to connect to db'''
 	if config == 'testing':
-		db_name = os.getenv('TEST_DB')
+		db_name = "testdb"
 	else:
 		db_name = "fastfood"
-		host = "localhost"
-		user = "philip"
-		password = "mphillips"
+
+	host = "localhost"
+	user = "philip"
+	password = "mphillips"
 
 
 	return connect(
