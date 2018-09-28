@@ -22,7 +22,7 @@ class TestModels(BaseClass):
     	self.first_order.save()
     	order = Order.get(id=1, user_id=1)
     	data = {'food' :'kuku tamu', 'price' : '100'}
-    	order = order.update(data=data)
+    	order = order.updates(data=data)
     	self.assertDictContainsSubset(data, order)
 
     def test_get_specific_order(self):
