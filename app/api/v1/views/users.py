@@ -1,5 +1,5 @@
 from flask import Flask
-from flask_restful import Resource, reqparse
+from flask_restful import Resource, reqparse#diff
 import re
 
 from app.api.v1.models import User
@@ -11,8 +11,8 @@ class RegisterUser(Resource):
 	parser.add_argument('password', required=True, help='Password cannot be blank', type=str)
 
 	def post(self):
-		'''methods=['POST']'''
-		args = RegisterUser.parser.parse_args()
+		'''methods'''
+		args = RegisterUser.parser.parse_args() #how
 		username = args.get('username')
 		email = args.get('email')
 		password = args.get('password')
