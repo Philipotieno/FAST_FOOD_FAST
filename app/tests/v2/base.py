@@ -3,7 +3,7 @@ from unittest import TestCase
 from app.api.v2.db import connect_to_db
 from app.api.v2 import create_app
 
-SIGNUP_URL = '/api/v2/user/signup'
+SIGNUP_URL = '/api/v1/user/signup'
 LOGIN_URL = '/api/v2/user/login'
 
 class BaseClass(TestCase):
@@ -13,10 +13,10 @@ class BaseClass(TestCase):
         conn.set_session(autocommit=True)
         cur = conn.cursor()
 
-        # cur.execute("""DROP TABLE IF EXISTS users CASCADE""" )
-        # cur.execute("""DROP TABLE IF EXISTS orders CASCADE""" )
-        # self.create_users_table(cur)
-        # self.create_orders_table(cur)
+        cur.execute("""DROP TABLE IF EXISTS users CASCADE""" )
+        cur.execute("""DROP TABLE IF EXISTS orders CASCADE""" )
+        self.create_users_table(cur)
+        self.create_orders_table(cur)
         
         self.app = create_app('testing')
         with self.app.app_context():
@@ -39,10 +39,10 @@ class BaseClass(TestCase):
             email='testuser@email.com',
             password='password')
 
-        # self.first_order = Order(
-        #     meal='nyama',
-        #     price ='200',
-        #     user_id=1)
+        self.first_meal = Order(
+            meal='nyama',
+            price ='200',
+            user_id=1)
 
         self.test_user = User(
             username='apondi',

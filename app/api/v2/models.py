@@ -1,6 +1,5 @@
 import os
 from datetime import datetime, timedelta
-from flask import current_app
 import jwt
 from werkzeug.security import check_password_hash, generate_password_hash
 import psycopg2
@@ -131,34 +130,3 @@ class Order(Base):
 			""",
 			(self.user_id, self.title, self.description, self.created_at, self.last_modified))
 		self.save()
-
-	@staticmethod
-	def get(user_id, order_id=None):
-		'''Method for fetching both single and all entries'''
-		if order_id:
-			cur.execute("""SELECT * FROM orders WHERE user_id={} AND id={}""".format(user_id, order_id))
-			return cur.fetchone()
-
-		cur.execute(
-			"""SELECT
-			orders.id,
-			users.id,
-			meal,
-			price,
-			ordered_at,
-			modified_at
-			FROM users INNER JOIN orders ON orders.user_id=users.id WHERE users.id={}""".format(user_id))
-		user_orders = cur.fetchall()
-		return user_orders
-
-	@staticmethod
-	def order_dict(order):
-		'''Method for returning entry details'''
-		return dict(
-			id=order[0],
-			user_id=order[1],
-			meal=order[2],
-			price=order[3],
-			ordered_at=order[4].isoformat(),
-			modified_at=order[5].isoformat()
-        )
