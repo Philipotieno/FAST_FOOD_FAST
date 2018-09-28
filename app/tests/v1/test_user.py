@@ -27,7 +27,7 @@ class Test_User(BaseClass):
 		self.assertEqual(result['message'], "You are now logged in")
 	
 	def test_login_wrong_details(self):
-		'''Test for log in of registered users'''
+		'''Test for log in of registered users with wrong details'''
 		self.test_user.save()
 		response = self.client.post(LOGIN_URL,
 			data=json.dumps({'username' : 'philips', 'password' : 'test1234'}),
