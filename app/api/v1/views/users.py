@@ -19,10 +19,10 @@ class RegisterUser(Resource):
 
 		validate_email = re.compile(
 			r"(^[a-zA-Z0-9_.-]+@[a-zA-Z-]+\.[a-zA-Z-]+$)")
-		validate_username = re.compile(r"(^[A-Za-z]+$)")
+		validate_username = re.compile(r"(^[A-Za-z0-9]+$)")
 
 		if not (re.match(validate_username, username)):
-			return {'message' : 'Username should have letters only'}, 400
+			return {'message' : 'Username should have letters and numbers only'}, 400
 		elif not (re.match(validate_email, email)):
 			return {'message': 'Ensure email is of the form example@mail.com'}, 400
 		if len(username) < 4:
@@ -32,9 +32,9 @@ class RegisterUser(Resource):
 			
 
 		username_exists = User.get_user_by_username(username=args['username'])
-		email_exists = User.get_user_by_email(email=args['email'])
+		#email_exists = User.get_user_by_email(email=args['email'])
 
-		if username_exists or email_exists:
+		if username_exists:
 			return {'message': 'User already exists'}, 203
 
 		user = User(username=args.get('username'), email=args.get('email'), password=password)
