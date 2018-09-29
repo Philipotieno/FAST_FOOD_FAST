@@ -12,20 +12,21 @@ class DATABASE():
 		self.all_orders = 0
 
 	def drop(self):
-		'''clears data'''
+		'''clears database after tests'''
 		self.__init__()
 
 db = DATABASE()
 
 class Base():
-    '''Base class to be inherited Order classe'''
-    def updates(self, data):
+    '''Base class to be inherited by User and Entry classes'''
+    def update(self, data):
         # Validate keys before passing to data.
         for key in data:
             setattr(self, key, data[key])
+        setattr(self, 'modified', datetime.utcnow().isoformat())
         return self.view()
 
-class User():
+class User(Base):
 	'''User model class'''
 	def __init__(self, username, password, email):
 		self.username = username
@@ -57,7 +58,7 @@ class User():
 	def generate_token(self):
 		'''method to generate tokens on user log in'''
 		payload = {
-		'exp' : datetime.utcnow()+timedelta(minutes=30),
+		'exp' : datetime.utcnow()+timedelta(minutes=120),
 		'iat' : datetime.utcnow(),
 		'username': self.username,
 		'id': self.id
@@ -99,9 +100,9 @@ class User():
 
 class Order(Base):
 	'''class to model order'''
-	def __init__(self, food, price, user_id):
+	def __init__(self, food, quantity, user_id):
 		self.food = food
-		self.price = price
+		self.quantity = quantity
 		self.id = None
 		self.created = datetime.utcnow().isoformat()
 		self.modified = datetime.utcnow().isoformat()
@@ -116,7 +117,7 @@ class Order(Base):
 
 	def view(self):
 		'''method to convert orders to json'''
-		keys = ('id', 'food', 'price', 'user_id', 'created', 'modified')
+		keys = ('id', 'food', 'quantity', 'user_id', 'created', 'modified')
 		return {key: getattr(self, key) for key in keys}
 
 	@classmethod

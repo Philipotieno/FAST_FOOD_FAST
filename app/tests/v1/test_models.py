@@ -21,7 +21,7 @@ class TestModels(BaseClass):
     	self.first_user.save()
     	self.first_order.save()
     	order = Order.get(id=1, user_id=1)
-    	data = {'food' :'kuku tamu', 'price' : '100'}
+    	data = {'food' :'kuku tamu', 'quantity' : '100'}
     	order = order.updates(data=data)
     	self.assertDictContainsSubset(data, order)
 

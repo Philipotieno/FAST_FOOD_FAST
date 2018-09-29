@@ -8,16 +8,16 @@ class OrderResource(Resource):
 	'''resources for user ordrs'''
 	parser = reqparse.RequestParser()
 	parser.add_argument('food', required=True, help='Food cannot be blank', type=str)
-	parser.add_argument('price', required=True, help='price cannot be blank', type=int)
+	parser.add_argument('quantity', required=True, help='quantity cannot be blank', type=int)
 
 	@token_required
 	def post(self, user_id):
 		'''method to post all orders'''
 		args = OrderResource.parser.parse_args()
 		food = args.get('food', '')
-		price = args.get('price', '')
+		quantity = args.get('quantity', '')
 
-		order = Order(food=food, user_id=user_id, price=price)
+		order = Order(food=food, user_id=user_id, quantity=quantity)
 		order = order.save()
 
 		return {'message' : 'you have place your order', 'order':order},201
@@ -41,12 +41,12 @@ class OrderResource(Resource):
 			return order, 404 #No orders if user_id
 		post_data = request.get_json()
 		food = post_data.get('food', None)
-		price =post_data.get('price', None) 
+		quantity =post_data.get('quantity', None) 
 		data = {}
 		if food:
 			data.update({'food':food})
-		if price:
-			data.update({'price':price})
+		if quantity:
+			data.update({'quantity':quantity})
 
 		order = order.updates(data=data)
 		return {'message' : 'Order updated', 'New_order' : order}, 200

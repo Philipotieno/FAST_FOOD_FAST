@@ -14,8 +14,6 @@ class BaseClass(unittest.TestCase):
 		#method creates a new test client and initializes a new database
 		self.app = create_app('testing')
 		self.client = self.app.test_client()
-		self.app_context = self.app.app_context()
-		self.app_context.push()
 		self.user_data = { 
 					"username" : "philioti",
 					"email" : "philiotieb@gmail.com",
@@ -23,7 +21,7 @@ class BaseClass(unittest.TestCase):
 					}
 		self.order_data = { 
 					"food" : "nyama",
-					"price" : "100"
+					"quantity" : "1"
 					}
 
 		self.first_user = User(
@@ -33,7 +31,7 @@ class BaseClass(unittest.TestCase):
 			)
 		self.first_order = Order(
 					food ="mashakura",
-					price ="200",
+					quantity ="1",
 					user_id= 1
 			)
 		self.test_user = User(
