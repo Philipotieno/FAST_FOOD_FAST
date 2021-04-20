@@ -21,7 +21,7 @@ mccabe==0.6.1
 more-itertools==4.2.0
 pipreqs==0.4.9
 pluggy==0.6.0
-py==1.5.4
+py==1.10.0
 PyJWT==1.6.4
 pylint==1.9.2
 pytest==3.6.3
